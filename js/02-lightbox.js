@@ -9,13 +9,13 @@ const divGalleryMarkup = createItemsMarkup(galleryItems)
 divGallery.insertAdjacentHTML('beforeend',divGalleryMarkup)
 
 
-function createItemsMarkup(item){
+function createItemsMarkup(galleryItems){
     return galleryItems
     .map(({preview, original, description}) =>{
 
     return`
     <ul class="gallery">
-<a class="gallery__item" href="large-image.jpg">
+<a class="gallery__item" href="${original}">
   <img class="gallery__image" 
   src="${preview}" 
   alt="${description}" />
