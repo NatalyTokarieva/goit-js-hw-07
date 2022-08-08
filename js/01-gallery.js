@@ -1,70 +1,62 @@
 import { galleryItems } from './gallery-items.js';
 // Change code below this line
 
-// console.log(galleryItems);
+console.log(galleryItems);
 
+  
+const divGallery = document.querySelector(".gallery");
+divGallery.innerHTML = createGalleryMarkup(galleryItems);
+divGallery.addEventListener("click", onImgModalOpen);
 
-const divGallery = document.querySelector('.gallery')
-const divGalleryMarkup = createItemsMarkup(galleryItems)
-divGallery.insertAdjacentHTML('beforeend',divGalleryMarkup)
-divGallery.addEventListener('click', onImgGallery);
+let instance;
 
-function createItemsMarkup(galleryItems){
-  return galleryItems.map(({preview, original, description}) =>{
-    return `
-    <div class="gallery__item">
-      <a class="gallery__link" href="${original}">
-        <img
-          class="gallery__image"
-          src="${preview}"
-          data-source=""${original}
-          alt="${description}"
-        />
-      </a>
-    </div>`
-  })
-  .join("");
-
-}
-
-function onImgGallery(event){
-  const isGalleryItemEl = event.target.classList.contains('gallery__image');
-  const originalImg = event.target.dataset.source;
-  event.preventDefault();
-  if(!isGalleryItemEl){
+function onImgModalOpen(e) {
+  if (e.target.nodeName !== "IMG") {
     return;
   }
-  const instance = basicLightbox.create(`
-  <img src="${originalImg}" width="800" height="600">`, {
-    onShow: () => {
-      window.addEventListener('keydown', onCloseGallery);
-  },
-  onClose: () => {
-    window.removeEventListener('keydown', onCloseGallery);
-  },
+  e.preventDefault();
+  instance = basicLightbox.create(
+    `<img width="800" height="600"
+    src="${e.target.dataset.source}">`,
+    {
+      onShow: (instance) => {
+        addListener();
+      },
+      onClose: (instance) => {
+        removeListener();
+      },
+    }
+  );
+  instance.show();
+}
 
-});
+function createGalleryMarkup(items) {
+  return items
+    .map(({ preview, original, description }) => {
+      return `<div class="gallery__item">
+        <a class="gallery__link" href="${original}">
+          <img
+            class="gallery__image"
+            src="${preview}"
+            data-source="${original}"
+            alt="${description}"
+          />
+        </a>
+      </div>`;
+    })
+    .join("");
+}
 
-function onCloseGallery(event){
-  if(event.code === 'Escape'){
-    instance.close();
+function addListener() {
+  window.addEventListener("keydown", onEscClick);
+}
+
+function removeListener() {
+  window.removeEventListener("keydown", onEscClick);
+}
+
+function onEscClick(e) {
+  if (e.code === "Escape") {
+    modalInstance.close();
   }
 }
-
-instance.show();
-}
-
-
-
-
-
-
-
-
-// // import * as basicLightbox from 'basiclightbox'
-
-// const instance = basicLightbox.create(`
-//     <img src="assets/images/image.png" width="800" height="600">
-// `)
-
-// // instance.show()
