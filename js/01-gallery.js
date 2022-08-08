@@ -60,3 +60,18 @@ function onEscClick(e) {
     modalInstance.close();
   }
 }
+
+
+// instance = basicLightbox.create(
+//   `<img width="800" height="600"
+//   src="${e.target.dataset.source}">`,
+//   {
+//     onShow: (instance) => {
+//       addListener();
+//     },
+//     onClose: (instance) => {
+//       removeListener();
+//     },
+//   }
+// );
+// instance.show();
