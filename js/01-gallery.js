@@ -57,7 +57,7 @@ function removeListener() {
 
 function onEscClick(e) {
   if (e.code === "Escape") {
-    modalInstance.close();
+    instance.close();
   }
 }
 
